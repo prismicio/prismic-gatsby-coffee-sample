@@ -6,13 +6,14 @@ module.exports = {
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
-    /*{
+    {
       resolve: `@prismicio/gatsby-source-prismic-graphql`,
       options: {
         repositoryName: `gatsby-delos`,
-        previews: false,
+        path: '/preview',
+        previews: true,
       }
-    },*/
+    },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
