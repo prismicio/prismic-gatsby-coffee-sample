@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import { Link as PrismicLink, RichText } from 'prismic-reactjs'
+import { RichText } from 'prismic-reactjs'
 import { linkResolver } from '../../utils/linkResolver'
 
 function renderProducts(slice) {
@@ -8,7 +8,7 @@ function renderProducts(slice) {
     <div key={index} className="products-grid-item-wrapper">
       <img className="products-grid-item-image" src={item.link_to_product.product_image.url} alt={item.link_to_product.product_image.alt}/>
       <p className="products-grid-item-name">
-        <Link to={PrismicLink.url(item.link_to_product, linkResolver)}>
+        <Link to={linkResolver(item.link_to_product)}>
           {RichText.asText(item.link_to_product.product_name)}
         </Link>
       </p>
@@ -24,9 +24,10 @@ export default ({ slice }) =>
           {RichText.render(slice.primary.section_title, linkResolver)}
         </div>
         <div className="products-grid-header-button-wrapper">
-          <a className="a-button" href={PrismicLink.url(slice.primary.button_link, linkResolver)}>
+        {console.log(slice.primary.button_link)}
+          <Link className="a-button" to={linkResolver(slice.primary.button_link)}>
             {RichText.asText(slice.primary.button_label)}
-          </a>
+          </Link>
         </div>
       </header>
     </div>
