@@ -24,7 +24,6 @@ export default ({ slice }) =>
           {RichText.render(slice.primary.section_title, linkResolver)}
         </div>
         <div className="products-grid-header-button-wrapper">
-        {console.log(slice.primary.button_link)}
           <Link className="a-button" to={linkResolver(slice.primary.button_link)}>
             {RichText.asText(slice.primary.button_label)}
           </Link>

@@ -3,8 +3,7 @@ import { RichText } from 'prismic-reactjs'
 import { linkResolver } from '../utils/linkResolver'
 import { CTABanner, FeaturedItems, NumberedItems, Separator, TextBlock } from '../components/slices'
 import { withPreview } from '@prismicio/gatsby-source-prismic-graphql'
-
-import '../stylesheets/main.scss'
+import Layout from "../components/layouts"
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -84,9 +83,9 @@ class HomePage extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
+      <Layout>
         {this.renderBody()}
-      </React.Fragment>
+      </Layout>
     );
   }
 }
