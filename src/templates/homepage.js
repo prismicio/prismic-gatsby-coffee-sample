@@ -2,9 +2,9 @@ import React from 'react'
 import { RichText } from 'prismic-reactjs'
 import { linkResolver } from '../utils/linkResolver'
 import { CTABanner, FeaturedItems, NumberedItems, Separator, TextBlock } from '../components/slices'
+import { withPreview } from '@prismicio/gatsby-source-prismic-graphql'
 
-
-export default class HomePage extends React.Component {
+class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -88,3 +88,5 @@ export default class HomePage extends React.Component {
     );
   }
 }
+
+export default withPreview(HomePage)

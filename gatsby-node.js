@@ -1,12 +1,13 @@
 const path = require('path')
+const { createPages } = require('@prismicio/gatsby-source-prismic-graphql')
 
-exports.createPages = async ({ graphql, actions }) => {
-    const { createPage } = actions
+exports.createPages = createPages(async ({ graphql, actions }) => {
+    const { createPrismicPage } = actions
     return new Promise((resolve, reject) => {
         resolve(graphql(`
         {
             prismic{
-              allHomepages(uid:"homepage"){
+              allHomepages(uid:null){
                 edges{
                   node{
                     _meta{
@@ -26,8 +27,12 @@ exports.createPages = async ({ graphql, actions }) => {
                           button_label
                           button_link{
                             __typename
-                            ... on PRISMIC__ExternalLink {
-                              url
+                            ... on PRISMIC_Products {
+                              title
+                              _meta {
+                                uid
+                                id
+                              }
                             }
                           }
                         }
@@ -88,8 +93,11 @@ exports.createPages = async ({ graphql, actions }) => {
             }
 
             result.data.prismic.allHomepages.edges.forEach(({ node }) => {
-                createPage({
-                    path: `/`,
+                createPrismicPage({
+                    pattern: `/`,
+                    params: {
+                        uid: node._meta.uid
+                    },
                     component: path.resolve(`./src/templates/homepage.js`),
                     context: {
                         data: node
@@ -98,4 +106,4 @@ exports.createPages = async ({ graphql, actions }) => {
             })
         })
     )})
-}
+})
