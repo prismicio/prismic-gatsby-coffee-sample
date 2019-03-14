@@ -1,0 +1,10 @@
+html {
+  color: #121212;
+  font-family: $font-sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  min-height: calc(100vh - 513px);
+}
