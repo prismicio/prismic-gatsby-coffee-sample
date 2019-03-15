@@ -4,6 +4,7 @@ import { linkResolver } from '../utils/linkResolver'
 import { withPreview } from '@prismicio/gatsby-source-prismic-graphql'
 import { Link } from 'gatsby'
 import Layout from '../components/layouts'
+import { Helmet } from 'react-helmet'
 
 class BlogHome extends React.Component {
   constructor(props){
@@ -56,6 +57,10 @@ class BlogHome extends React.Component {
   render() {
     return (
       <Layout>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{RichText.asText(this.state.doc.meta_title)}</title>
+        </Helmet>
         {this.renderBody()}
       </Layout>
     );

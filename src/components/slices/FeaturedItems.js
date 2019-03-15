@@ -8,7 +8,7 @@ function renderProducts(slice) {
     <div key={index} className="products-grid-item-wrapper">
       <img className="products-grid-item-image" src={item.link_to_product.product_image.url} alt={item.link_to_product.product_image.alt}/>
       <p className="products-grid-item-name">
-        <Link to={linkResolver(item.link_to_product)}>
+        <Link to={linkResolver(item.link_to_product._meta)}>
           {RichText.asText(item.link_to_product.product_name)}
         </Link>
       </p>

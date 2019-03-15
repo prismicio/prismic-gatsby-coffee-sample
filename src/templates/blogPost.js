@@ -2,6 +2,8 @@ import React from 'react'
 import { RichText } from 'prismic-reactjs'
 import { linkResolver } from '../utils/linkResolver'
 import { withPreview } from '@prismicio/gatsby-source-prismic-graphql'
+import { Helmet } from 'react-helmet'
+
 import Layout from '../components/layouts'
 
 class BlogPost extends React.Component {
@@ -57,6 +59,10 @@ class BlogPost extends React.Component {
   render() {
     return(
       <Layout>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{RichText.asText(this.state.doc.title)}</title>
+        </Helmet>
         {this.renderBody()}
       </Layout>
     );

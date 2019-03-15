@@ -275,6 +275,7 @@ exports.createPages = createPages(async ({ graphql, actions }) => {
         allBlog_homes(uid:null){
           edges{
             node{
+              meta_title
               _meta{
                 uid
                 id

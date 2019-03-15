@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, StaticQuery, graphql } from 'gatsby'
 import { linkResolver } from '../../utils/linkResolver'
+import { Helmet } from 'react-helmet'
 
 import '../../stylesheets/main.scss'
 
@@ -10,13 +11,13 @@ class Layout extends React.Component {
     const layoutData = data.prismic.allLayouts.edges[0].node;
 
     const headerItems = layoutData.header_nav_items.map((item) =>
-      <Link className="header-nav-link" to={linkResolver(item.link._meta)}>
+      <Link key={item.link._meta.id} className="header-nav-link" to={linkResolver(item.link._meta)}>
         {item.text}
       </Link>
     )
 
     const navItems = layoutData.footer_nav_items.map((item) =>
-      <Link className="footer-nav-link" to={linkResolver(item.link._meta)}>
+      <Link key={item.link._meta.id} className="footer-nav-link" to={linkResolver(item.link._meta)}>
         {item.text}
       </Link>
     )
@@ -35,6 +36,10 @@ class Layout extends React.Component {
 
     return(
       <React.Fragment>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{layoutData.site_name}</title>
+        </Helmet>
         <div className="header" id="header">
           <div className="header-inner">
             <Link className="header-name" to="/">
@@ -84,12 +89,14 @@ export default props => (
                     ... on PRISMIC_Products{
                       _meta{
                         uid
+                        id
                         type
                       }
                     }
                     ... on PRISMIC_Blog_home{
                       _meta{
                         uid
+                        id
                         type
                       }
                     }
@@ -101,12 +108,14 @@ export default props => (
                     ... on PRISMIC_Products{
                       _meta{
                         uid
+                        id
                         type
                       }
                     }
                     ... on PRISMIC_Blog_home{
                       _meta{
                         uid
+                        id
                         type
                       }
                     }
