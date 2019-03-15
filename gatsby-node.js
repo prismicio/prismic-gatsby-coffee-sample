@@ -3,8 +3,8 @@ const { createPages } = require('@prismicio/gatsby-source-prismic-graphql')
 
 exports.createPages = createPages(async ({ graphql, actions }) => {
   const { createPrismicPage } = actions
-  return new Promise((resolve, reject) => {
-    resolve(graphql(`
+
+  const homepage = graphql(`
     {
       prismic{
         allHomepages(uid:null){
@@ -98,23 +98,22 @@ exports.createPages = createPages(async ({ graphql, actions }) => {
         }
       }
     }
-    `).then(result => {
-      if (result.errors) {
-        reject(result.errors)
-      }
-      
-      result.data.prismic.allHomepages.edges.forEach(({ node }) => {
-        createPrismicPage({
-          pattern: `/`,
-          params: {
-            uid: 'test'
-          },
-          component: path.resolve(`./src/templates/homepage.js`),
-          context: {
-            data: node
-          },
-        })
+  `).then(result => {
+    if (result.errors) {
+      Promise.reject(result.errors)
+    }
+    
+    result.data.prismic.allHomepages.edges.forEach(({ node }) => {
+      createPrismicPage({
+        pattern: `/`,
+        component: path.resolve(`./src/templates/homepage.js`),
+        context: {
+          data: node
+        },
       })
     })
-  )})
+  })
+  
+
+  return Promise.all([homepage])
 })

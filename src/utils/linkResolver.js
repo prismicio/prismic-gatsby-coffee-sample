@@ -1,19 +1,19 @@
 exports.linkResolver = function linkResolver(doc) {
 
-  if (doc._meta.type === 'homepage') {
+  if (doc.type === 'homepage') {
     return '/';
   }
-  if (doc._meta.type === 'products') {
+  if (doc.type === 'products') {
     return '/products';
   }
-  if (doc._meta.type === 'product') {
-    return '/products/' + doc._meta.uid;
+  if (doc.type === 'product') {
+    return '/products/' + doc.uid;
   }
-  if (doc._meta.type === 'blog_home') {
+  if (doc.type === 'blog_home') {
     return '/blog';
   }
-  if (doc._meta.type === 'blog_post') {
-    return '/blog/' + doc._meta.uid;
+  if (doc.type === 'blog_post') {
+    return '/blog/' + doc.uid;
   }
   return '/';
 }

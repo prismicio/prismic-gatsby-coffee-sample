@@ -1,0 +1,32 @@
+/*{
+  prismic{
+    allProductss(uid:null){
+      edges{
+        node{
+          title
+          meta_title
+          meta_description
+          _meta{
+            uid
+            id
+            type
+          }
+        }
+      }
+    }
+    allProducts{
+      edges{
+        node{
+          product_name
+          product_image
+          sub_title
+          _meta{
+            type
+            id
+            uid
+          }
+        }
+      }
+    }
+  }
+}*/

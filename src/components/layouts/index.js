@@ -1,11 +1,75 @@
 import React from 'react'
 import { Link, StaticQuery, graphql } from 'gatsby'
-import PropTypes from 'prop-types'
 import { linkResolver } from '../../utils/linkResolver'
 
 import '../../stylesheets/main.scss'
 
-const Layout = ({ children }) => (
+class Layout extends React.Component {
+  render() {
+    const { data } = this.props;
+    const layoutData = data.prismic.allLayouts.edges[0].node;
+
+    const headerItems = layoutData.header_nav_items.map((item) =>
+      <Link className="header-nav-link" to={linkResolver(item.link._meta)}>
+        {item.text}
+      </Link>
+    )
+
+    const navItems = layoutData.footer_nav_items.map((item) =>
+      <Link className="footer-nav-link" to={linkResolver(item.link._meta)}>
+        {item.text}
+      </Link>
+    )
+
+    const socialItems = layoutData.footer_social_items.map((item, index) => {
+      return (
+        <a
+          key={index}
+          className="footer-social-item"
+          href={item.link.url}
+        >
+          <img src={item.icon.url} alt={item.icon.alt} />
+        </a>
+      )
+    })
+
+    return(
+      <React.Fragment>
+        <div className="header" id="header">
+          <div className="header-inner">
+            <Link className="header-name" to="/">
+              {layoutData.site_name}
+            </Link>
+            <nav className="header-nav">
+              {headerItems}
+            </nav>
+            {/* BURGER MENU GOES HERE */}
+          </div>
+        </div>
+        <main>
+          {this.props.children}
+        </main>
+        <footer className="footer">
+          <div className="footer-inner">
+            <div>
+              <p className="footer-name">
+                {layoutData.site_name}
+              </p>
+              <div className="footer-social-items">
+                {socialItems}
+              </div>
+            </div>
+            <nav className="footer-nav">
+              {navItems}
+            </nav>
+          </div>
+        </footer>
+      </React.Fragment>
+    );
+  }
+}
+
+export default props => (
   <StaticQuery
     query={graphql`
       query{
@@ -32,6 +96,7 @@ const Layout = ({ children }) => (
                   }
                 }
                 footer_nav_items{
+                  text
                   link{
                     ... on PRISMIC_Products{
                       _meta{
@@ -61,45 +126,6 @@ const Layout = ({ children }) => (
         }
       }
     `}
-    render={data => (
-      <React.Fragment>
-        <div className="header" id="header">
-          <div className="header-inner">
-            <Link className="header-name" to="/">
-              {data.prismic.allLayouts.edges[0].node.site_name}
-            </Link>
-            <nav className="header-nav">
-              HEADER ITEMS
-            </nav>
-            {/* BURGER MENU GOES HERE */}
-          </div>
-        </div>
-        <main>
-          {children}
-        </main>
-        <footer className="footer">
-          <div className="footer-inner">
-            <div>
-              <p className="footer-name">
-                SITE NAME
-              </p>
-              <div className="footer-social-items">
-                SOCIAL ITEMS
-              </div>
-            </div>
-            <nav className="footer-nav">
-              FOOTER ITEMS
-            </nav>
-          </div>
-        </footer>
-      </React.Fragment>
-    )}
+    render={data => <Layout data={data} {...props}/>}
   />
 )
-
-
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-}
-
-export default Layout
