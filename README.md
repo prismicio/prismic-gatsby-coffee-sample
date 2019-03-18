@@ -3,7 +3,7 @@
   <a href="https://www.gatsbyjs.org">
     <img alt="Gatsby" src="https://www.gatsbyjs.org/monogram.svg" width="60" />
   </a>
-  <h2><strong>+</strong></h2>
+  <h3><strong>+</strong></h3>
   <a href="https://prismic.io">
     <img alt="Prismic" src="https://prismic.io/website-assets/images/logo-dark.svg">
   </a>
