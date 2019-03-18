@@ -1,18 +1,16 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "prismic-gatsby-coffee-sample",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "A sample website built using Gatsby connected to Prismic data source",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Raul Gonzalez @raulg",
   "dependencies": {
     "@prismicio/gatsby-source-prismic-graphql": "^0.0.6",
     "gatsby": "^2.1.32",
-    "gatsby-image": "^2.0.33",
     "gatsby-plugin-manifest": "^2.0.24",
     "gatsby-plugin-offline": "^2.0.25",
     "gatsby-plugin-react-helmet": "^3.0.9",
     "gatsby-plugin-sass": "^2.0.11",
-    "gatsby-source-filesystem": "^2.0.25",
     "node-sass": "^4.11.0",
     "prismic-javascript": "^2.0.1",
     "prismic-reactjs": "^0.3.2",
@@ -38,9 +36,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
-  },
-  "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/raulg/prismic-gatsby-coffee-sample"
   }
 }
