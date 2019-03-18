@@ -2,10 +2,29 @@ import React from 'react'
 import { Link, StaticQuery, graphql } from 'gatsby'
 import { linkResolver } from '../../utils/linkResolver'
 import { Helmet } from 'react-helmet'
+import burgerClosed from '../../images/burger-closed.svg'
+import burgerOpened from '../../images/burger-opened.svg'
 
 import '../../stylesheets/main.scss'
 
 class Layout extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      menuOpen: false
+    }
+    this.handleMenuOpen = this.handleMenuOpen.bind(this)
+    this.handleClickMenuItem = this.handleClickMenuItem.bind(this)
+  }
+
+  handleMenuOpen() {
+    this.setState({ menuOpen: !this.state.menuOpen })
+  }
+
+  handleClickMenuItem() {
+    this.setState({ menuOpen: false })
+  }
+
   render() {
     const { data } = this.props;
     const layoutData = data.prismic.allLayouts.edges[0].node;
@@ -40,7 +59,7 @@ class Layout extends React.Component {
           <meta charSet="utf-8" />
           <title>{layoutData.site_name}</title>
         </Helmet>
-        <div className="header" id="header">
+        <div className={`header${this.state.menuOpen ? ' header--is-nav-opened' : ''}`} id="header">
           <div className="header-inner">
             <Link className="header-name" to="/">
               {layoutData.site_name}
@@ -48,7 +67,10 @@ class Layout extends React.Component {
             <nav className="header-nav">
               {headerItems}
             </nav>
-            {/* BURGER MENU GOES HERE */}
+            <div className="header-burger" id="header-burger" onClick={this.handleMenuOpen}>
+              <img className="header-burger-img header-burger-img--closed" src={burgerClosed} alt="Mobile menu toggle - closed state" />
+              <img className="header-burger-img header-burger-img--opened" src={burgerOpened} alt="Mobile menu toggle - opened state" />
+            </div>
           </div>
         </div>
         <main>

@@ -1,7 +1,7 @@
 .footer {
   min-height: 420px;
   padding: 90px 0;
-  background: #f6f6f6 url('/img/footer-background.png') no-repeat center;
+  background: #f6f6f6 url('./../images/footer-background.png') no-repeat center;
 
   @media (max-width: 1680px) {
     background-size: cover;
