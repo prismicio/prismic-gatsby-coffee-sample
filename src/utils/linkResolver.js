@@ -4,13 +4,13 @@ exports.linkResolver = function linkResolver(doc) {
     return '/';
   }
   if (doc.type === 'products') {
-    return '/products';
+    return '/products/';
   }
   if (doc.type === 'product') {
     return '/products/' + doc.uid;
   }
   if (doc.type === 'blog_home') {
-    return '/blog';
+    return '/blog/';
   }
   if (doc.type === 'blog_post') {
     return '/blog/' + doc.uid;
