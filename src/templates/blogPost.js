@@ -1,72 +1,92 @@
 import React from 'react'
 import { RichText } from 'prismic-reactjs'
 import { linkResolver } from '../utils/linkResolver'
-import { withPreview } from '@prismicio/gatsby-source-prismic-graphql'
 import { Helmet } from 'react-helmet'
+import { graphql } from 'gatsby'
 
 import Layout from '../components/layouts'
 
-class BlogPost extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      doc: this.props.pageContext.data
+export const query = graphql`
+{
+  prismic{
+    allBlog_posts{
+      edges{
+        node{
+          _meta{
+            uid
+            id
+          }
+          author{
+            _linkType
+            ... on PRISMIC_Author{
+              name
+              bio
+              picture
+            }
+          }
+          image
+          title
+          rich_content
+        }
+      }
     }
   }
+}
+`
 
-  renderBody(){
-    return (
-      <React.Fragment>
-        <div className="l-wrapper">
-          <hr className="separator-hr" />
+const RenderBody = ({ blogPost }) => (
+  <React.Fragment>
+    <div className="l-wrapper">
+      <hr className="separator-hr" />
+    </div>
+
+    <article className="blog-post-article">
+      <div className="blog-post-inner">
+        <div className="blog-post-image-wrapper">
+          <img className="blog-post-image" src={blogPost.image.url} alt={blogPost.image.alt}/>
         </div>
-
-        <article className="blog-post-article">
-          <div className="blog-post-inner">
-            <div className="blog-post-image-wrapper">
-              <img className="blog-post-image" src={this.state.doc.image.url} alt={this.state.doc.image.alt}/>
-            </div>
-            <div className="blog-post-title">
-              {RichText.render(this.state.doc.title, linkResolver)}
-            </div>
-            <div className="blog-post-rich-content">
-              {RichText.render(this.state.doc.rich_content, linkResolver)}
-            </div>
-            <div className="blog-post-author-wrapper">
-              {this.state.doc.author && this.state.doc.author.picture
-                ? <img className="blog-post-author-picture" src={this.state.doc.author.picture.url} alt={this.state.doc.author.picture.alt} />
-                : ''
-              }
-              <div>
-                {this.state.doc.author && this.state.doc.author.name
-                  ? <p className="blog-post-author-name">{RichText.asText(this.state.doc.author.name)}</p>
-                  : ''
-                }
-                {this.state.doc.author && this.state.doc.author.bio
-                  ? <p className="blog-post-author-bio">{RichText.asText(this.state.doc.author.bio)}</p>
-                  : ''
-                }
-              </div>
-            </div>
+        <div className="blog-post-title">
+          {RichText.render(blogPost.title, linkResolver)}
+        </div>
+        <div className="blog-post-rich-content">
+          {RichText.render(blogPost.rich_content, linkResolver)}
+        </div>
+        <div className="blog-post-author-wrapper">
+          {blogPost.author && blogPost.author.picture
+            ? <img className="blog-post-author-picture" src={blogPost.author.picture.url} alt={blogPost.author.picture.alt} />
+            : ''
+          }
+          <div>
+            {blogPost.author && blogPost.author.name
+              ? <p className="blog-post-author-name">{RichText.asText(blogPost.author.name)}</p>
+              : ''
+            }
+            {blogPost.author && blogPost.author.bio
+              ? <p className="blog-post-author-bio">{RichText.asText(blogPost.author.bio)}</p>
+              : ''
+            }
           </div>
-        </article>
+        </div>
+      </div>
+    </article>
 
-        <div data-wio-id={this.state.doc._meta.id}></div>
-      </React.Fragment>
-    )
-  }
+    <div data-wio-id={blogPost._meta.id}></div>
+  </React.Fragment>
+)
 
-  render() {
-    return(
-      <Layout>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{RichText.asText(this.state.doc.title)}</title>
-        </Helmet>
-        {this.renderBody()}
-      </Layout>
-    );
-  }
+const BlogPost = props => {
+  const doc = props.data.prismic.allBlog_posts.edges.slice(0,1).pop();
+  if(!doc) return null;
+
+  return(
+    <Layout>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{RichText.asText(doc.node.title)}</title>
+      </Helmet>
+      <RenderBody blogPost={doc.node} />
+    </Layout>
+  )
 }
 
-export default withPreview(BlogPost)
+export default BlogPost;
