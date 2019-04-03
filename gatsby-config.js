@@ -15,12 +15,12 @@ module.exports = {
         pages: [{
           type: 'Product',
           match: '/products/:uid',
-          path: '/products',
+          path: '/product',
           component: require.resolve('./src/templates/product.js')
         },{
           type: 'Blog_post',
           match: '/blog/:uid',
-          path: '/blog',
+          path: '/blogpost',
           component: require.resolve('./src/templates/blogPost.js')
         }]
       }
