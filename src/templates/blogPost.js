@@ -7,9 +7,9 @@ import { graphql } from 'gatsby'
 import Layout from '../components/layouts'
 
 export const query = graphql`
-{
+query BlogPostQuery($uid: String) {
   prismic{
-    allBlog_posts{
+    allBlog_posts(uid: $uid){
       edges{
         node{
           _meta{

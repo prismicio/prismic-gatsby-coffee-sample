@@ -7,9 +7,9 @@ import { Helmet } from 'react-helmet'
 import Layout from '../components/layouts'
 
 export const query = graphql`
-{
+query ProductQuery($uid: String) {
   prismic{
-    allProducts{
+    allProducts(uid: $uid){
       edges{
         node{
           _meta{

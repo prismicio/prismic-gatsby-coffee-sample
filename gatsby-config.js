@@ -20,7 +20,7 @@ module.exports = {
         },{
           type: 'Blog_post',
           match: '/blog/:uid',
-          path: '/blog/',
+          path: '/blog',
           component: require.resolve('./src/templates/blogPost.js')
         }]
       }
