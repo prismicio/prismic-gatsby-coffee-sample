@@ -53,11 +53,15 @@ class Layout extends React.Component {
       )
     })
 
+    // Call to render the classic edit button
+    if (process.browser) window.prismic.setupEditButton();
+
     return(
       <React.Fragment>
         <Helmet>
           <meta charSet="utf-8" />
           <title>{layoutData.site_name}</title>
+          <link href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" rel="stylesheet" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
         </Helmet>
         <div className={`header${this.state.menuOpen ? ' header--is-nav-opened' : ''}`} id="header">
           <div className="header-inner">
