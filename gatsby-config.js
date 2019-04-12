@@ -1,3 +1,6 @@
+const { apiEndpoint } = require('./prismic-configuration');
+var repo = /([^\/]+)\.prismic\.io\/api\/v2/.exec(apiEndpoint);
+
 module.exports = {
   siteMetadata: {
     title: `Coffee Shop Demo`,
@@ -9,9 +12,10 @@ module.exports = {
     {
       resolve: `gatsby-source-prismic-graphql`,
       options: {
-        repositoryName: `prismic-gatsby-coffee`,
+        repositoryName: repo[1],
         path: '/preview',
         previews: true,
+        //accessToken: '...',
         pages: [{
           type: 'Product',
           match: '/products/:uid',
