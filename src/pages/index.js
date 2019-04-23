@@ -169,6 +169,7 @@ const RenderBody = ({ home }) => (
 );
 
 export default ({ data }) => {
+  // Required check for no data being returned
   const doc = data.prismic.allHomepages.edges.slice(0,1).pop();
   if(!doc) return null;
   
