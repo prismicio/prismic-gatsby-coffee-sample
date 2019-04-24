@@ -1,5 +1,5 @@
 const { apiEndpoint } = require('./prismic-configuration');
-var repo = /([^\/]+)\.prismic\.io\/graphql/.exec(apiEndpoint);
+var repo = /([^\/]+)\.prismic\.io/.exec(apiEndpoint);
 
 module.exports = {
   siteMetadata: {
