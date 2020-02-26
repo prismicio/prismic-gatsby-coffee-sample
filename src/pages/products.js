@@ -1,62 +1,93 @@
 import React from 'react'
-import { RichText } from 'prismic-reactjs'
-import { linkResolver } from '../utils/linkResolver'
 import { Link, graphql } from 'gatsby'
+import { RichText } from 'prismic-reactjs'
 import { Helmet } from 'react-helmet'
-
+import { withPreview } from 'gatsby-source-prismic'
 import Layout from '../components/layouts'
 
-export const query = graphql`
-{
-  prismic{
-    allProductss(uid:null){
-      edges{
-        node{
-          title
-          meta_title
-          meta_description
-          _meta{
-            uid
-            id
-            type
-          }
-        }
-      }
-    }
-    allProducts{
-      edges{
-        node{
-          _meta{
-            type
-            id
-            uid
-          }
-          product_name
-          product_image
-          sub_title
-        }
-      }
-    }
-  }
-}
-`
+const ProductsTemplate = ({ data }) => {
+  if (!data) return null
+  const pageContent = data.allPrismicProduct
+  const page = pageContent.edges || {}
 
-const RenderProductList = ({ products }) => {
-  return products.map((item) =>
-    <div key={item.node._meta.uid} className="products-grid-item-wrapper">
-      <Link to={linkResolver(item.node._meta)}>
-        <img className="products-grid-item-image" src={item.node.product_image.url} alt={item.node.product_image.alt}/>
-        <p className="products-grid-item-name">
-            {RichText.asText(item.node.product_name)}
-        </p>
-      </Link>
-      <p className="products-grid-item-subtitle">{RichText.asText(item.node.sub_title)}</p>
-    </div>
+  const pageLayout = data.prismicLayout.data
+  return (
+    <Layout layoutData={pageLayout}>
+      <Helmet>
+        <meta charSet="utf-8" />
+        {page.map((item, i) => (
+          <title key={i}>{item.node.data.title.text}</title>
+        ))}
+      </Helmet>
+      <RenderBody products={page} />
+    </Layout>
   )
 }
 
-const RenderBody = ({ productHome, products }) => (
-  <React.Fragment>
+export const query = graphql`
+  query MyHomeProductsQuery {
+    allPrismicProduct {
+      edges {
+        node {
+          uid
+          type
+          url
+          id
+          data {
+            title {
+              text
+              raw
+            }
+            meta_title {
+              text
+              raw
+            }
+            meta_description {
+              raw
+              text
+            }
+            product_name {
+              raw
+              text
+            }
+            product_image {
+              alt
+              url
+            }
+            sub_title {
+              text
+              raw
+            }
+          }
+        }
+      }
+    }
+    prismicLayout {
+      ...LayoutFragment
+    }
+  }
+`
+
+const RenderProductList = ({ products }) => (
+  <div key={products.node.uid} className="products-grid-item-wrapper">
+    <Link to={products.node.url}>
+      <img
+        className="products-grid-item-image"
+        src={products.node.data.product_image.url}
+        alt={products.node.data.product_image.alt}
+      />
+      <p className="products-grid-item-name">
+        {products.node.data.product_name.text}
+      </p>
+    </Link>
+    <p className="products-grid-item-subtitle">
+      {products.node.data.sub_title.text}
+    </p>
+  </div>
+)
+
+const RenderBody = ({ products }) => products.map((item, i) => (
+  <section key={i}>
     <div className="l-wrapper">
       <hr className="separator-hr" />
     </div>
@@ -65,32 +96,17 @@ const RenderBody = ({ productHome, products }) => (
       <div className="l-wrapper">
         <header className="products-grid-header">
           <div className="products-grid-header-title">
-            {RichText.render(productHome.title, linkResolver)}
+            <RichText
+              render={item.node.data.title.raw || []}
+            />
           </div>
         </header>
       </div>
       <div className="products-grid-items-wrapper">
-        <RenderProductList products={products} />
+        <RenderProductList products={item} />
       </div>
     </section>
+  </section>
+))
 
-    <div data-wio-id={productHome._meta.id}></div>
-  </React.Fragment>
-)
-
-
-export default ({ data }) => {
-  const doc = data.prismic.allProductss.edges.slice(0,1).pop();
-  if(!doc) return null;
-
-  return (
-    <Layout>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{RichText.asText(doc.node.title)}</title>
-      </Helmet>
-      <RenderBody productHome={doc.node} products={data.prismic.allProducts.edges} />
-    </Layout>
-  );
-}
-
+export default withPreview(ProductsTemplate)
