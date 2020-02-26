@@ -105,7 +105,7 @@ export default props => (
     query={graphql`
       query{
         prismic{
-          allLayouts(uid:null){
+          allLayouts {
             edges{
               node{
                 site_name

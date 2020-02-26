@@ -9,7 +9,7 @@ import Layout from '../components/layouts'
 export const query = graphql`
 {
   prismic{
-    allBlog_homes(uid:null){
+    allBlog_homes {
       edges{
         node{
           meta_title

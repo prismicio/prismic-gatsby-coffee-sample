@@ -9,7 +9,7 @@ import Layout from '../components/layouts'
 export const query = graphql`
 {
   prismic{
-    allProductss(uid:null){
+    allProductss {
       edges{
         node{
           title
