@@ -11,6 +11,7 @@ For more information, refer to the [official Prismic and Gatsby documentation](h
 
 A deployment demo is available in Netlify: https://gatsby-coffee-demo.netlify.com/
 #
+
 ## 1. Launch the project
 
 ### Install the CLI
