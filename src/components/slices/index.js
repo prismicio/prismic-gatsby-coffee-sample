@@ -4,4 +4,6 @@ import NumberedItems from './NumberedItems'
 import Separator from './Separator'
 import TextBlock from './TextBlock'
 
-export { CTABanner, FeaturedItems, NumberedItems, Separator, TextBlock }
+export {
+  CTABanner, FeaturedItems, NumberedItems, Separator, TextBlock,
+}
