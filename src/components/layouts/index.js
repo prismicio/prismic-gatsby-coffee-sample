@@ -1,6 +1,5 @@
 import React from 'react'
-import { Link, StaticQuery, graphql } from 'gatsby'
-import { linkResolver } from '../../utils/linkResolver'
+import { Link, graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
 import burgerClosed from '../../images/burger-closed.svg'
 import burgerOpened from '../../images/burger-opened.svg'
@@ -11,13 +10,14 @@ class Layout extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      menuOpen: false
+      menuOpen: false,
     }
     this.handleMenuOpen = this.handleMenuOpen.bind(this)
     this.handleClickMenuItem = this.handleClickMenuItem.bind(this)
   }
 
   handleMenuOpen() {
+    // eslint-disable-next-line react/destructuring-assignment
     this.setState({ menuOpen: !this.state.menuOpen })
   }
 
@@ -26,42 +26,36 @@ class Layout extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
-    const layoutData = data.prismic.allLayouts.edges[0].node;
+    const { layoutData } = this.props
 
-    const headerItems = layoutData.header_nav_items.map((item) =>
-      <Link key={item.link._meta.id} className="header-nav-link" to={linkResolver(item.link._meta)}>
+    const headerItems = layoutData.header_nav_items.map((item) => (
+      <Link key={item.link.document.id} className="header-nav-link" to={item.link.document.url}>
         {item.text}
       </Link>
-    )
+    ))
 
-    const navItems = layoutData.footer_nav_items.map((item) =>
-      <Link key={item.link._meta.id} className="footer-nav-link" to={linkResolver(item.link._meta)}>
+    const navItems = layoutData.footer_nav_items.map((item) => (
+      <Link key={item.link.document.id} className="footer-nav-link" to={item.link.document.url}>
         {item.text}
       </Link>
-    )
+    ))
 
-    const socialItems = layoutData.footer_social_items.map((item, index) => {
-      return (
-        <a
-          key={index}
-          className="footer-social-item"
-          href={item.link.url}
-        >
-          <img src={item.icon.url} alt={item.icon.alt} />
-        </a>
-      )
-    })
+    const socialItems = layoutData.footer_social_items.map((item, index) => (
+      <a
+        key={index}
+        className="footer-social-item"
+        href={item.link.url}
+      >
+        <img src={item.icon.url} alt={item.icon.alt} />
+      </a>
+    ))
 
-    // Call to render the classic edit button
-    if (process.browser) window.prismic.setupEditButton();
-
-    return(
-      <React.Fragment>
+    return (
+      <>
         <Helmet>
           <meta charSet="utf-8" />
           <title>{layoutData.site_name}</title>
-          <link href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" rel="stylesheet" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
+          <link href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" rel="stylesheet" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossOrigin="anonymous" />
         </Helmet>
         <div className={`header${this.state.menuOpen ? ' header--is-nav-opened' : ''}`} id="header">
           <div className="header-inner">
@@ -95,72 +89,60 @@ class Layout extends React.Component {
             </nav>
           </div>
         </footer>
-      </React.Fragment>
-    );
+      </>
+    )
   }
 }
 
-export default props => (
-  <StaticQuery
-    query={graphql`
-      query{
-        prismic{
-          allLayouts(uid:null){
-            edges{
-              node{
-                site_name
-                header_nav_items{
-                  text
-                  link{
-                    ... on PRISMIC_Products{
-                      _meta{
-                        uid
-                        id
-                        type
-                      }
-                    }
-                    ... on PRISMIC_Blog_home{
-                      _meta{
-                        uid
-                        id
-                        type
-                      }
-                    }
-                  }
-                }
-                footer_nav_items{
-                  text
-                  link{
-                    ... on PRISMIC_Products{
-                      _meta{
-                        uid
-                        id
-                        type
-                      }
-                    }
-                    ... on PRISMIC_Blog_home{
-                      _meta{
-                        uid
-                        id
-                        type
-                      }
-                    }
-                  }
-                }
-                footer_social_items{
-                  icon
-                  link{
-                    ... on PRISMIC__ExternalLink{
-                      url
-                    }
-                  }
-                }
-              }
+export default Layout
+
+export const query = graphql`
+fragment LayoutFragment on PrismicLayout {
+    data {
+      site_name
+      header_nav_items {
+        text
+        link {
+          document {
+            ... on PrismicProducts {
+              id
+              url
+              type
+            }
+            ... on PrismicBlogHome {
+              id
+              url
+              type
             }
           }
         }
       }
-    `}
-    render={data => <Layout data={data} {...props}/>}
-  />
-)
+      footer_nav_items {
+        text
+        link {
+          document {
+            ... on PrismicProducts {
+              id
+              url
+              type
+            }
+            ... on PrismicBlogHome {
+              id
+              url
+              type
+            }
+          }
+        }
+      }
+      footer_social_items {
+        icon {
+          alt
+          url
+        }
+        link {
+          url
+        }
+      }
+    }
+  }
+`

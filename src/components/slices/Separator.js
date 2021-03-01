@@ -1,6 +1,7 @@
 import React from 'react'
 
-export default () =>
+export default () => (
   <div className="l-wrapper">
     <hr className="separator-hr" />
   </div>
+)
