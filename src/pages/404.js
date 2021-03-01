@@ -1,7 +1,7 @@
 import React from 'react'
 import { withUnpublishedPreview } from 'gatsby-source-prismic'
 import { BlogPostTemplate } from '../templates/BlogPost'
-import { ProductTemplate } from '../templates/Product'
+// import { ProductTemplate } from '../templates/Product'
 
 const Page404 = () => (
   <div className="not-found">
@@ -17,9 +17,9 @@ const Page404 = () => (
 
 export default withUnpublishedPreview(Page404, {
   templateMap: {
-    product: ProductTemplate,
+    // product: ProductTemplate,
     blog_post: BlogPostTemplate,
-    prismicProduct: ProductTemplate,
+    // prismicProduct: ProductTemplate,
     prismicBlogPost: BlogPostTemplate,
   },
 })
