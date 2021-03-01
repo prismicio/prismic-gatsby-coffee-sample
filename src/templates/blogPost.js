@@ -3,7 +3,7 @@ import { RichText } from 'prismic-reactjs'
 import { Helmet } from 'react-helmet'
 import { graphql } from 'gatsby'
 import { withPreview } from 'gatsby-source-prismic'
-import Layout from '../components/layouts'
+import Layout from '../components/layouts/index'
 
 export const BlogPostTemplate = ({ data }) => {
   if (!data) return null

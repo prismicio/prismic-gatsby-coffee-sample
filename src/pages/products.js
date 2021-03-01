@@ -3,7 +3,7 @@ import { Link, graphql } from 'gatsby'
 import { RichText } from 'prismic-reactjs'
 import { Helmet } from 'react-helmet'
 import { withPreview } from 'gatsby-source-prismic'
-import Layout from '../components/layouts'
+import Layout from '../components/layouts/index'
 
 const ProductsTemplate = ({ data }) => {
   if (!data) return null

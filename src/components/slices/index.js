@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default */
 import CTABanner from './CTABanner'
 import FeaturedItems from './FeaturedItems'
 import NumberedItems from './NumberedItems'

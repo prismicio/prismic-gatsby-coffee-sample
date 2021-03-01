@@ -5,7 +5,7 @@ import { withPreview } from 'gatsby-source-prismic'
 import {
   CTABanner, FeaturedItems, NumberedItems, Separator, TextBlock,
 } from '../components/slices'
-import Layout from '../components/layouts'
+import Layout from '../components/layouts/index'
 
 const HomeTemplate = ({ data }) => {
   if (!data) return null
@@ -153,6 +153,7 @@ export const query = graphql`
 `
 
 const RenderSlices = ({ slices }) => (slices.map((slice, index) => {
+  // eslint-disable-next-line consistent-return
   const res = (() => {
     switch (slice.slice_type) {
       case 'cta_banner': return (

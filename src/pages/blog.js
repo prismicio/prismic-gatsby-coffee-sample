@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
 import { withPreview } from 'gatsby-source-prismic'
-import Layout from '../components/layouts'
+import Layout from '../components/layouts/index'
 
 const BlogTemplate = ({ data }) => {
   if (!data) return null
