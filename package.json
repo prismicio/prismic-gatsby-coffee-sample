@@ -1,6 +1,6 @@
 {
-  "name": "multi-language-site",
-  "description": "Sample multi-language website with Prismic CMS & Gatsby.js",
+  "name": "Coffee sample website",
+  "description": "Coffee sample website with Prismic CMS & Gatsby.js",
   "dependencies": {
     "gatsby": "^2.23.7",
     "gatsby-image": "^2.4.7",
