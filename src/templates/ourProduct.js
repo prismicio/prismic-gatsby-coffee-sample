@@ -2,15 +2,16 @@ import React from 'react'
 import { RichText } from 'prismic-reactjs'
 import { Helmet } from 'react-helmet'
 import { graphql, Link } from 'gatsby'
-import { withPreview } from 'gatsby-source-prismic'
+import usePreviewData from '../utils/usePreviewData'
 import Layout from '../components/layouts/index'
 
-const ProductTemplate = ({ data }) => {
+export const ProductTemplate = ({ data }) => {
   if (!data) return null
-  const pageContent = data.prismicProduct
+  const liveData = usePreviewData(data)
+  const pageContent = liveData.prismicProduct
   const page = pageContent.data || {}
 
-  const pageLayout = data.prismicLayout.data
+  const pageLayout = liveData.prismicLayout.data
 
   return (
     <Layout layoutData={pageLayout}>
@@ -175,4 +176,4 @@ const RenderBody = ({ product }) => (
   </>
 )
 
-export default withPreview(ProductTemplate)
+export default ProductTemplate

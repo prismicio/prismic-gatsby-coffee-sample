@@ -1,6 +1,6 @@
 module.exports = {
   // The repo name for your Prismic repository (found in the url of your repo: https://your-repo-name.prismic.io/)
-  prismicRepo: 'coffe-shop-demo-pau',
+  prismicRepo: 'prismic-gatsby-coffee-p',
 
   // Release ID to build (requires access)
   releaseID: '',

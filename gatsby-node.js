@@ -24,7 +24,7 @@ exports.createPages = async ({ graphql, actions }) => {
   pages.data.allPrismicProduct.nodes.forEach((page) => {
     createPage({
       path: page.url,
-      component: path.resolve(__dirname, 'src/templates/Product.js'),
+      component: path.resolve(__dirname, 'src/templates/ourProduct.js'),
       context: { ...page },
     })
   })
@@ -32,7 +32,7 @@ exports.createPages = async ({ graphql, actions }) => {
   pages.data.allPrismicBlogPost.nodes.forEach((page) => {
     createPage({
       path: page.url,
-      component: path.resolve(__dirname, 'src/templates/BlogPost.js'),
+      component: path.resolve(__dirname, 'src/templates/blogPost.js'),
       context: { ...page },
     })
   })

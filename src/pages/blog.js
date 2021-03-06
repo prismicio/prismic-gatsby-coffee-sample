@@ -1,23 +1,25 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
-import { withPreview } from 'gatsby-source-prismic'
+import usePreviewData from '../utils/usePreviewData'
 import Layout from '../components/layouts/index'
 
-const BlogTemplate = ({ data }) => {
+export const BlogTemplate = ({ data }) => {
   if (!data) return null
-  const pageContent = data.allPrismicBlogPost
+  const liveData = usePreviewData(data)
+
+  const pageContent = liveData.allPrismicBlogPost
   const page = pageContent.edges || {}
 
-  const pageLayout = data.prismicLayout.data
+  const BlogHomeTitle = liveData.allPrismicBlogHome.edges[0].node.data.meta_title.text
+
+  const pageLayout = liveData.prismicLayout.data
 
   return (
     <Layout layoutData={pageLayout}>
       <Helmet>
         <meta charSet="utf-8" />
-        {page.map((item, i) => (
-          <title key={i}>{item.node.data.title.text}</title>
-        ))}
+        <title>{BlogHomeTitle}</title>
       </Helmet>
       <RenderBody posts={page} />
     </Layout>
@@ -26,6 +28,17 @@ const BlogTemplate = ({ data }) => {
 
 export const query = graphql`
   query MyQuery {
+    allPrismicBlogHome {
+      edges {
+        node {
+          data {
+            meta_title {
+              text
+            }
+          }
+        }
+      }
+    }
     allPrismicBlogPost {
       edges {
         node {
@@ -97,4 +110,4 @@ const RenderBody = ({ posts }) => (
   </>
 )
 
-export default withPreview(BlogTemplate)
+export default BlogTemplate
