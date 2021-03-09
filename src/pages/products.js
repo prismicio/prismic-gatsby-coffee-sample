@@ -4,6 +4,7 @@ import { RichText } from 'prismic-reactjs'
 import { Helmet } from 'react-helmet'
 import usePreviewData from '../utils/usePreviewData'
 import Layout from '../components/layouts/index'
+import { withPreview } from 'gatsby-source-prismic'
 
 export const ProductsTemplate = ({ data }) => {
   if (!data) return null
@@ -117,4 +118,4 @@ const RenderBody = ({ products, pageTitle }) => (
   </section>
 )
 
-export default ProductsTemplate
+export default withPreview(ProductsTemplate)

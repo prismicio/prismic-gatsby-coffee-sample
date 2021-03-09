@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet'
 import { graphql, Link } from 'gatsby'
 import usePreviewData from '../utils/usePreviewData'
 import Layout from '../components/layouts/index'
+import { withPreview } from 'gatsby-source-prismic'
 
 export const ProductTemplate = ({ data }) => {
   if (!data) return null
@@ -176,4 +177,5 @@ const RenderBody = ({ product }) => (
   </>
 )
 
-export default ProductTemplate
+export default withPreview(ProductTemplate)
+

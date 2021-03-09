@@ -6,6 +6,7 @@ import {
   CTABanner, FeaturedItems, NumberedItems, Separator, TextBlock,
 } from '../components/slices'
 import Layout from '../components/layouts/index'
+import { withPreview } from 'gatsby-source-prismic'
 
 export const HomeTemplate = ({ data }) => {
   if (!data) return null
@@ -223,4 +224,4 @@ const RenderBody = ({ home }) => (
   </>
 )
 
-export default HomeTemplate
+export default withPreview(HomeTemplate)

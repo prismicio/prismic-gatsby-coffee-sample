@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet'
 import { graphql } from 'gatsby'
 import usePreviewData from '../utils/usePreviewData'
 import Layout from '../components/layouts/index'
+import { withPreview } from 'gatsby-source-prismic'
 
 export const BlogPostTemplate = ({ data }) => {
   if (!data) return null
@@ -137,4 +138,4 @@ const RenderBody = ({ blogPost }) => (
   </>
 )
 
-export default BlogPostTemplate
+export default withPreview(BlogPostTemplate)
