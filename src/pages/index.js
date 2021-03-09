@@ -1,21 +1,19 @@
 import React from 'react'
 import { RichText } from 'prismic-reactjs'
 import { graphql } from 'gatsby'
-import usePreviewData from '../utils/usePreviewData'
+import { withPreview } from 'gatsby-source-prismic'
 import {
   CTABanner, FeaturedItems, NumberedItems, Separator, TextBlock,
 } from '../components/slices'
 import Layout from '../components/layouts/index'
-import { withPreview } from 'gatsby-source-prismic'
 
 export const HomeTemplate = ({ data }) => {
   if (!data) return null
-  const liveData = usePreviewData(data)
 
-  const pageContent = liveData.allPrismicHomepage
+  const pageContent = data.allPrismicHomepage
   const page = pageContent.edges[0].node || {}
 
-  const pageLayout = liveData.prismicLayout.data
+  const pageLayout = data.prismicLayout.data
   return (
     <Layout layoutData={pageLayout}>
       <RenderBody home={page} />

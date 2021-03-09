@@ -1,20 +1,17 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
 import { Helmet } from 'react-helmet'
-import usePreviewData from '../utils/usePreviewData'
-import Layout from '../components/layouts/index'
 import { withPreview } from 'gatsby-source-prismic'
+import Layout from '../components/layouts/index'
 
 export const BlogTemplate = ({ data }) => {
   if (!data) return null
-  const liveData = usePreviewData(data)
-
-  const pageContent = liveData.allPrismicBlogPost
+  const pageContent = data.allPrismicBlogPost
   const page = pageContent.edges || {}
 
-  const BlogHomeTitle = liveData.allPrismicBlogHome.edges[0].node.data.meta_title.text
+  const BlogHomeTitle = data.allPrismicBlogHome.edges[0].node.data.meta_title.text
 
-  const pageLayout = liveData.prismicLayout.data
+  const pageLayout = data.prismicLayout.data
 
   return (
     <Layout layoutData={pageLayout}>

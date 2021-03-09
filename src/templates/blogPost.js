@@ -2,18 +2,16 @@ import React from 'react'
 import { RichText } from 'prismic-reactjs'
 import { Helmet } from 'react-helmet'
 import { graphql } from 'gatsby'
-import usePreviewData from '../utils/usePreviewData'
-import Layout from '../components/layouts/index'
 import { withPreview } from 'gatsby-source-prismic'
+import Layout from '../components/layouts/index'
 
 export const BlogPostTemplate = ({ data }) => {
   if (!data) return null
-  const liveData = usePreviewData(data)
 
-  const pageContent = liveData.prismicBlogPost
+  const pageContent = data.prismicBlogPost
   const page = pageContent.data || {}
 
-  const pageLayout = liveData.prismicLayout.data
+  const pageLayout = data.prismicLayout.data
 
   return (
     <Layout layoutData={pageLayout}>
