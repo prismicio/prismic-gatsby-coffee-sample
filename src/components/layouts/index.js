@@ -29,23 +29,27 @@ class Layout extends React.Component {
     const { layoutData } = this.props
 
     const headerItems = layoutData.header_nav_items.map((item) => (
-      <Link key={item.link.document.id} className="header-nav-link" to={item.link.document.url}>
+      <Link
+        key={item.link.document.id}
+        className="header-nav-link"
+        to={item.link.document.url}
+      >
         {item.text}
       </Link>
     ))
 
     const navItems = layoutData.footer_nav_items.map((item) => (
-      <Link key={item.link.document.id} className="footer-nav-link" to={item.link.document.url}>
+      <Link
+        key={item.link.document.id}
+        className="footer-nav-link"
+        to={item.link.document.url}
+      >
         {item.text}
       </Link>
     ))
 
     const socialItems = layoutData.footer_social_items.map((item, index) => (
-      <a
-        key={index}
-        className="footer-social-item"
-        href={item.link.url}
-      >
+      <a key={index} className="footer-social-item" href={item.link.url}>
         <img src={item.icon.url} alt={item.icon.alt} />
       </a>
     ))
@@ -55,38 +59,50 @@ class Layout extends React.Component {
         <Helmet>
           <meta charSet="utf-8" />
           <title>{layoutData.site_name}</title>
-          <link href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" rel="stylesheet" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossOrigin="anonymous" />
+          <link
+            href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+            rel="stylesheet"
+            integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt"
+            crossOrigin="anonymous"
+          />
         </Helmet>
-        <div className={`header${this.state.menuOpen ? ' header--is-nav-opened' : ''}`} id="header">
+        <div
+          className={`header${
+            this.state.menuOpen ? ' header--is-nav-opened' : ''
+          }`}
+          id="header"
+        >
           <div className="header-inner">
             <Link className="header-name" to="/">
               {layoutData.site_name}
             </Link>
-            <nav className="header-nav">
-              {headerItems}
-            </nav>
-            <div className="header-burger" id="header-burger" onClick={this.handleMenuOpen}>
-              <img className="header-burger-img header-burger-img--closed" src={burgerClosed} alt="Mobile menu toggle - closed state" />
-              <img className="header-burger-img header-burger-img--opened" src={burgerOpened} alt="Mobile menu toggle - opened state" />
+            <nav className="header-nav">{headerItems}</nav>
+            <div
+              className="header-burger"
+              id="header-burger"
+              onClick={this.handleMenuOpen}
+            >
+              <img
+                className="header-burger-img header-burger-img--closed"
+                src={burgerClosed}
+                alt="Mobile menu toggle - closed state"
+              />
+              <img
+                className="header-burger-img header-burger-img--opened"
+                src={burgerOpened}
+                alt="Mobile menu toggle - opened state"
+              />
             </div>
           </div>
         </div>
-        <main>
-          {this.props.children}
-        </main>
+        <main>{this.props.children}</main>
         <footer className="footer">
           <div className="footer-inner">
             <div>
-              <p className="footer-name">
-                {layoutData.site_name}
-              </p>
-              <div className="footer-social-items">
-                {socialItems}
-              </div>
+              <p className="footer-name">{layoutData.site_name}</p>
+              <div className="footer-social-items">{socialItems}</div>
             </div>
-            <nav className="footer-nav">
-              {navItems}
-            </nav>
+            <nav className="footer-nav">{navItems}</nav>
           </div>
         </footer>
       </>
@@ -97,7 +113,7 @@ class Layout extends React.Component {
 export default Layout
 
 export const query = graphql`
-fragment LayoutFragment on PrismicLayout {
+  fragment LayoutFragment on PrismicLayout {
     data {
       site_name
       header_nav_items {
