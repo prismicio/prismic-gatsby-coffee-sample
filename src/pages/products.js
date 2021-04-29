@@ -1,38 +1,36 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import { RichText } from 'prismic-reactjs'
-import { Helmet } from 'react-helmet'
 import { withPreview } from 'gatsby-source-prismic'
 import Layout from '../components/layouts/index'
 
 export const ProductsTemplate = ({ data }) => {
   if (!data) return null
-
-  const pageTitle = data.allPrismicProducts.nodes[0].data.title.raw
-
-  const pageContent = data.allPrismicProduct
-  const page = pageContent.edges || {}
-
+  const page = data.allPrismicProduct.edges || {}
+  const pageMeta = data.prismicProducts.data
   const pageLayout = data.prismicLayout.data
   return (
-    <Layout layoutData={pageLayout}>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Products</title>
-      </Helmet>
-      <RenderBody products={page} pageTitle={pageTitle} />
+    <Layout
+      layoutData={pageLayout}
+      title={pageMeta.meta_title.text}
+      description={pageMeta.meta_description.text}
+    >
+      <RenderBody products={page} pageTitle={pageMeta.title.text} />
     </Layout>
   )
 }
 
 export const query = graphql`
   query MyHomeProductsQuery {
-    allPrismicProducts {
-      nodes {
-        data {
-          title {
-            raw
-          }
+    prismicProducts {
+      data {
+        title {
+          text
+        }
+        meta_title {
+          text
+        }
+        meta_description {
+          text
         }
       }
     }
@@ -105,7 +103,7 @@ const RenderBody = ({ products, pageTitle }) => (
       <div className="l-wrapper">
         <header className="products-grid-header">
           <div className="products-grid-header-title">
-            <RichText render={pageTitle || []} />
+            {pageTitle || []}
           </div>
         </header>
       </div>

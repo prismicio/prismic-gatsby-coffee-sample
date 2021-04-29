@@ -9,13 +9,14 @@ import Layout from '../components/layouts/index'
 
 export const HomeTemplate = ({ data }) => {
   if (!data) return null
-
-  const pageContent = data.allPrismicHomepage
-  const page = pageContent.edges[0].node || {}
-
+  const page = data.allPrismicHomepage.edges[0].node || {}
   const pageLayout = data.prismicLayout.data
   return (
-    <Layout layoutData={pageLayout}>
+    <Layout
+      layoutData={pageLayout}
+      title={page.data.meta_title.text}
+      description={page.data.meta_description.text}
+    >
       <RenderBody home={page} />
     </Layout>
   )
@@ -30,6 +31,12 @@ export const query = graphql`
           type
           url
           data {
+            meta_title {
+              text
+            }
+            meta_description {
+              text
+            }
             title {
               raw
               text

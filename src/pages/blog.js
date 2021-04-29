@@ -1,24 +1,19 @@
 import React from 'react'
 import { Link, graphql } from 'gatsby'
-import { Helmet } from 'react-helmet'
 import { withPreview } from 'gatsby-source-prismic'
 import Layout from '../components/layouts/index'
 
 export const BlogTemplate = ({ data }) => {
   if (!data) return null
-  const pageContent = data.allPrismicBlogPost
-  const page = pageContent.edges || {}
-
-  const BlogHomeTitle = data.allPrismicBlogHome.edges[0].node.data.meta_title.text
-
+  const pageMeta = data.prismicBlogHome.data
+  const page = data.allPrismicBlogPost.edges || {}
   const pageLayout = data.prismicLayout.data
-
   return (
-    <Layout layoutData={pageLayout}>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{BlogHomeTitle}</title>
-      </Helmet>
+    <Layout
+      layoutData={pageLayout}
+      title={pageMeta.meta_title.text}
+      description={pageMeta.meta_description.text}
+    >
       <RenderBody posts={page} />
     </Layout>
   )
@@ -26,14 +21,13 @@ export const BlogTemplate = ({ data }) => {
 
 export const query = graphql`
   query MyQuery {
-    allPrismicBlogHome {
-      edges {
-        node {
-          data {
-            meta_title {
-              text
-            }
-          }
+    prismicBlogHome {
+      data {
+        meta_description {
+          text
+        }
+        meta_title {
+          text
         }
       }
     }

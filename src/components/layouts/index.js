@@ -58,7 +58,8 @@ class Layout extends React.Component {
       <>
         <Helmet>
           <meta charSet="utf-8" />
-          <title>{layoutData.site_name}</title>
+          <title>{layoutData.metaTitle}</title>
+          <meta name="description" content={layoutData.metaDescr} />
           <link
             href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
             rel="stylesheet"
