@@ -1,7 +1,7 @@
 const { prismicRepo, releaseID, accessToken } = require('./prismic-configuration')
 const linkResolver = require('./src/utils/linkResolver')
 
-const reponame = process.env.PRISMIC_REPO_NAME || prismicRepo
+const repoName = process.env.PRISMIC_REPO_NAME || prismicRepo
 const apiKey = process.env.PRISMIC_API_KEY || accessToken
 const prismicReleaseID = process.env.PRISMIC_RELEASE_ID || releaseID
 
@@ -17,7 +17,7 @@ const productsSchema = require('./custom_types/products.json')
 const gastbySourcePrismicConfig = {
   resolve: 'gatsby-source-prismic',
   options: {
-    repositoryName: reponame,
+    repositoryName: repoName,
     accessToken: apiKey,
     releaseID: prismicReleaseID,
     prismicToolbar: true,
