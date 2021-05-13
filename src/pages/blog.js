@@ -1,67 +1,95 @@
 import React from 'react'
-import { RichText } from 'prismic-reactjs'
-import { linkResolver } from '../utils/linkResolver'
 import { Link, graphql } from 'gatsby'
-import { Helmet } from 'react-helmet'
+import { withPreview } from 'gatsby-source-prismic'
+import Layout from '../components/layouts/index'
 
-import Layout from '../components/layouts'
+export const BlogTemplate = ({ data }) => {
+  if (!data) return null
+  const pageMeta = data.prismicBlogHome.data
+  const page = data.allPrismicBlogPost.edges || {}
+  const pageLayout = data.prismicLayout.data
+  return (
+    <Layout
+      layoutData={pageLayout}
+      title={pageMeta.meta_title.text}
+      description={pageMeta.meta_description.text}
+    >
+      <RenderBody posts={page} />
+    </Layout>
+  )
+}
 
 export const query = graphql`
-{
-  prismic{
-    allBlog_homes(uid:null){
-      edges{
-        node{
-          meta_title
-          _meta{
-            uid
-            id
-            type
+  query MyQuery {
+    prismicBlogHome {
+      data {
+        meta_description {
+          text
+        }
+        meta_title {
+          text
+        }
+      }
+    }
+    allPrismicBlogPost {
+      edges {
+        node {
+          uid
+          id
+          type
+          url
+          data {
+            title {
+              raw
+              text
+            }
+            rich_content {
+              raw
+              text
+            }
+            image {
+              alt
+              url
+            }
           }
         }
       }
     }
-    allBlog_posts{
-      edges{
-        node{
-          _meta{
-            uid
-            id
-            type
-          }
-          title
-          image
-          rich_content        
-        }
-      }
+    prismicLayout {
+      ...LayoutFragment
     }
   }
-}
 `
 
-const RenderPosts = ({ posts }) => {
-  return posts.map((item) =>
-    <div key={item.node._meta.uid} className="blog-home-post-wrapper">
+const RenderPosts = ({ posts }) => posts.map((item) => {
+  const post = item.node.data
+  return (
+    <div key={item.node.uid} className="blog-home-post-wrapper">
+      {' '}
       <article>
-        <img className="blog-home-post-image" src={item.node.image.url} alt={item.node.image.alt} />
-        <p className="blog-home-post-title">
-          {RichText.asText(item.node.title)}
-        </p>
+        <img
+          className="blog-home-post-image"
+          src={post.image.url}
+          alt={post.image.alt}
+        />
+        <p className="blog-home-post-title">{post.title.text}</p>
         <p className="blog-home-post-excerpt">
-          {RichText.asText(item.node.rich_content).substring(0, 158)} …
+          {post.rich_content.text.substring(0, 158)}
+          {' '}
+          …
         </p>
         <div className="blog-home-post-button-wrapper">
-          <Link className="a-button" to={linkResolver(item.node._meta)}>
+          <Link className="a-button" to={item.node.url}>
             Read post
           </Link>
         </div>
       </article>
     </div>
   )
-}
+})
 
-const RenderBody = ({ blogHome, posts }) => (
-  <React.Fragment>
+const RenderBody = ({ posts }) => (
+  <>
     <div className="l-wrapper">
       <hr className="separator-hr" />
     </div>
@@ -71,22 +99,7 @@ const RenderBody = ({ blogHome, posts }) => (
         <RenderPosts posts={posts} />
       </div>
     </section>
-
-    <div data-wio-id={blogHome._meta.id}></div>
-  </React.Fragment>
+  </>
 )
 
-export default ({ data }) => {
-  const doc = data.prismic.allBlog_homes.edges.slice(0,1).pop();
-  if(!doc) return null;
-
-  return(
-    <Layout>
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>{RichText.asText(doc.node.meta_title)}</title>
-      </Helmet>
-      <RenderBody blogHome={doc.node} posts={data.prismic.allBlog_posts.edges} />
-    </Layout>
-  );
-}
+export default withPreview(BlogTemplate)
