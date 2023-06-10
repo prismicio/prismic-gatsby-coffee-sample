@@ -2,7 +2,7 @@
   "name": "coffee-sample-website",
   "description": "Coffee sample website with Prismic CMS & Gatsby.js",
   "dependencies": {
-    "gatsby": "^2.23.7",
+    "gatsby": "^4.25.7",
     "gatsby-image": "^2.4.7",
     "gatsby-plugin-manifest": "^2.4.12",
     "gatsby-plugin-offline": "^3.2.11",
